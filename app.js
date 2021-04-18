@@ -31,11 +31,36 @@ app.get('/campgrounds', async (req, res)=>{
     const campgrounds = await Campground.find({});
     res.render('campgrounds', {campgrounds});
 })
+app.get('/campgrounds/new', (req,res)=>{
+    res.render('campgrounds/new');
+})
+app.post('/campgrounds', async (req, res)=>{
+    console.log("nasa post");
+    const {campground} = req.body;
+    const newCamp = new Campground(campground);
+    await newCamp.save();
+    res.redirect('/campgrounds');
+})
+
 app.get('/campgrounds/:id', async (req, res)=>{
     const {id} = req.params;
     const campground = await Campground.findById(id);
     res.render('campgrounds/show', {campground});
 })
+
+app.put('/campgrounds/:id', async (req,res)=>{
+    const {id} = req.params;
+    const {campground} = req.body;
+    await Campground.findByIdAndUpdate(id, campground, {new:true});
+    res.redirect(`/campgrounds/${id}`);
+})
+
+app.get('/campgrounds/:id/edit', async (req, res)=>{
+    const {id} = req.params;
+    const campground = await Campground.findById(id);
+    res.render('campgrounds/edit', {campground});
+})
+
 app.get('/', (req,res) =>{
     res.render('home');
 })
