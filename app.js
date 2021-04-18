@@ -4,6 +4,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
+const Campground = require('./models/campground');
 
 dotenv.config();
 
@@ -26,6 +27,10 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 
+app.get('/campground', async (req, res)=>{
+    const campgrounds = await Campground.find({});
+    res.render('campgrounds', {campgrounds});
+})
 app.get('/', (req,res) =>{
     res.render('home');
 })
