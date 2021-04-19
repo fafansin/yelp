@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const dotenv = require('dotenv');
 const methodOverride = require('method-override');
+const ejsMate = require('ejs-mate');
 const mongoose = require('mongoose');
 const Campground = require('./models/campground');
 
@@ -20,7 +21,7 @@ mongoose.connect(process.env.DB_HOST, {
         console.log('Mongodb Connection Failed');
         console.log(e);
     })
-
+app.engine('ejs', ejsMate);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
