@@ -36,7 +36,6 @@ app.get('/campgrounds/new', (req,res)=>{
     res.render('campgrounds/new');
 })
 app.post('/campgrounds', async (req, res)=>{
-    console.log("nasa post");
     const {campground} = req.body;
     const newCamp = new Campground(campground);
     await newCamp.save();
