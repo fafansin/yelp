@@ -29,46 +29,74 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 
+app.use(express.static(__dirname + '/assets'));
+
+/**
+ *  Campgrounds Index Page
+ */
 app.get('/campgrounds', async (req, res)=>{
     const campgrounds = await Campground.find({});
     res.render('campgrounds', {title: 'Campgrounds', campgrounds});
 })
+/**
+ *  New Campgrounds Page
+ */
 app.get('/campgrounds/new', (req,res)=>{
     res.render('campgrounds/new');
 })
+/**
+ *  Process New Campground
+ */
 app.post('/campgrounds', async (req, res)=>{
     const {campground} = req.body;
     const newCamp = new Campground(campground);
     await newCamp.save();
     res.redirect('/campgrounds');
 })
+/**
+ *  Process Delete Campground
+ */
 app.delete('/campgrounds/:id', async (req, res)=>{
     const { id } = req.params;
     const ref = await Campground.findByIdAndDelete(id);
     res.redirect('/campgrounds');
 })
-
-app.get('/campgrounds/:id', async (req, res)=>{
-    const {id} = req.params;
+/**
+ *  Show Campground Detail Page
+ */
+app.get('/campgrounds/:id', async (req, res, next)=>{
+    const { id } = req.params;
     const campground = await Campground.findById(id);
+    if(!campground){
+        return next(new AppError('Campground not found', 401));
+    }
     res.render('campgrounds/show', {campground});
 })
-
+/**
+ *  Process Updte Campgrounds
+ */
 app.put('/campgrounds/:id', async (req,res)=>{
     const {id} = req.params;
     const {campground} = req.body;
     await Campground.findByIdAndUpdate(id, campground, {new:true});
     res.redirect(`/campgrounds/${id}`);
 })
-
-app.get('/campgrounds/:id/edit', async (req, res)=>{
+/**
+ *  Edit Campgrounds Form Page
+ */
+app.get('/campgrounds/:id/edit', async (req, res, next)=>{
     const {id} = req.params;
     const campground = await Campground.findById(id);
+    if(!campground){
+        return next(new AppError('Campground not found', 401));
+    }
     res.render('campgrounds/edit', {campground});
 })
-
+/**
+ *  Home Page
+ */
 app.get('/', (req,res) =>{
-    // throw new AppError('Taena this', 400);
+    // throw new AppError('Taena this', 401);
     res.render('home');
 
 })
