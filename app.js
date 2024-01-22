@@ -6,7 +6,8 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const mongoose = require('mongoose');
 const Campground = require('./models/campground');
-const AppError = require('./AppError');
+const ExpressError = require('./utils/ExpressError');
+const catchAsync = require('./utils/catchAsync');
 
 dotenv.config();
 
@@ -34,10 +35,10 @@ app.use(express.static(__dirname + '/assets'));
 /**
  *  Campgrounds Index Page
  */
-app.get('/campgrounds', async (req, res)=>{
+app.get('/campgrounds', catchAsync(async (req, res)=>{
     const campgrounds = await Campground.find({});
     res.render('campgrounds', {title: 'Campgrounds', campgrounds});
-})
+}))
 /**
  *  New Campgrounds Page
  */
@@ -47,67 +48,73 @@ app.get('/campgrounds/new', (req,res)=>{
 /**
  *  Process New Campground
  */
-app.post('/campgrounds', async (req, res)=>{
+app.post('/campgrounds', catchAsync(async (req, res, next)=>{
     const {campground} = req.body;
+    if(!campground) throw new ExpressError('Invalid Campground Data', 500)
     const newCamp = new Campground(campground);
     await newCamp.save();
     res.redirect('/campgrounds');
-})
+}))
 /**
  *  Process Delete Campground
  */
-app.delete('/campgrounds/:id', async (req, res)=>{
+app.delete('/campgrounds/:id', catchAsync(async (req, res)=>{
     const { id } = req.params;
     const ref = await Campground.findByIdAndDelete(id);
     res.redirect('/campgrounds');
-})
+}))
 /**
  *  Show Campground Detail Page
  */
-app.get('/campgrounds/:id', async (req, res, next)=>{
+app.get('/campgrounds/:id', catchAsync(async (req, res, next)=>{
     const { id } = req.params;
     const campground = await Campground.findById(id);
     if(!campground){
-        return next(new AppError('Campground not found', 401));
+        throw new ExpressError('Campground not found', 401);
     }
     res.render('campgrounds/show', {campground});
-})
+}))
 /**
  *  Process Updte Campgrounds
  */
-app.put('/campgrounds/:id', async (req,res)=>{
+app.put('/campgrounds/:id', catchAsync(async (req,res)=>{
     const {id} = req.params;
     const {campground} = req.body;
     await Campground.findByIdAndUpdate(id, campground, {new:true});
     res.redirect(`/campgrounds/${id}`);
-})
+}))
 /**
  *  Edit Campgrounds Form Page
  */
-app.get('/campgrounds/:id/edit', async (req, res, next)=>{
+app.get('/campgrounds/:id/edit', catchAsync(async (req, res, next)=>{
     const {id} = req.params;
     const campground = await Campground.findById(id);
     if(!campground){
-        return next(new AppError('Campground not found', 401));
+        throw new ExpressError('Campground not found', 401);
     }
     res.render('campgrounds/edit', {campground});
-})
+}))
 /**
  *  Home Page
  */
 app.get('/', (req,res) =>{
-    // throw new AppError('Taena this', 401);
+    // throw new ExpressError('Taena this', 401);
     res.render('home');
 
 })
-
-app.get('*', (req, res) =>{
-    res.render('404');
+/**
+ *  404 Page Not Found
+ */
+app.all('*', (req, res, next) =>{
+    next(new ExpressError('Page Not Found', 404));
 })
 
+/**
+ *  Error handling middelware
+ */
 app.use((err, req, res, next) =>{
     const {status = 500, message = 'Something Went Wrong'} = err;
-    res.status(status).send(message);
+    res.status(status).render('error', {status, message});
 })
 
 app.listen(process.env.PORT, ()=>{
