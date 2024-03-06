@@ -39,9 +39,10 @@ app.use(express.json());
 /**
  *  Campgrounds Index Page
  */
-app.get('/campgrounds', catchAsync(async (req, res)=>{
+app.get('/api/getCampgrounds', catchAsync(async (req, res)=>{
     const campgrounds = await Campground.find({});
-    res.render('campgrounds', {title: 'Campgrounds', campgrounds});
+    res.json({success:true, campgrounds})
+    // res.render('campgrounds', {title: 'Campgrounds', campgrounds});
 }))
 /**
  *  New Campgrounds Page
@@ -110,7 +111,8 @@ app.get('/campgrounds/:id/edit', catchAsync(async (req, res, next)=>{
  *  404 Page Not Found
  */
 app.all('*', (req, res, next) =>{
-  res.sendFil('index.html', {root:root})
+  console.log('DIto umabot');
+  // res.sendFil('index.html', {root:root})
     // next(new ExpressError('Page Not Found', 404));
 })
 
