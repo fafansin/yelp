@@ -7,7 +7,6 @@ function Show() {
   const [campground, setCampground] = useState();
   const navigate = useNavigate();
 
-
   useEffect(() => {
     populate();
   }, [])
@@ -49,8 +48,9 @@ function Show() {
             <li className="list-group-item">{`$ ${campground && campground.price} /night`}</li>
           </ul>
           <div className="card-body">
-            <Link className="card-link btn btn-info" href={`/campgrounds/${campground && campground.id}/edit`}>Edit</Link>
+            <Link className="card-link btn btn-info" to={`/campgrounds/${campground && campground.id}/edit`}>Edit</Link>
             <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
+            <Link className="btn btn-secondary" to="/">Back</Link>
           </div>
           <div className="card-footer text-muted">
               2 days ago

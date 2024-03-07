@@ -10,6 +10,7 @@ import Error from './pages/Error';
 import Index from './pages/campgrounds/Index';
 import Show from './pages/campgrounds/Show';
 import New from './pages/campgrounds/New';
+import Edit from './pages/campgrounds/Edit';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
       { index:true, element: <Index />},
       { path:"/campgrounds/new", element: <New />},
       { path:"/campgrounds/:id", element: <Show />},
+      { path:"/campgrounds/:id/edit", element: <Edit />},
     ]
   }
 ])

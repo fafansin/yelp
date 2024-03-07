@@ -5,6 +5,7 @@ import axios from 'axios';
 function New() {
   const [ campground, setCampground ] = useState();
   const navigate = useNavigate();
+
   function handleChange(e){
     setCampground({...campground, [e.target.name]:e.target.value})
   }
@@ -61,7 +62,7 @@ function New() {
             <button className="btn btn-success">Add Campground</button>
           </div>
         </form>
-        <Link to="/">All Campgrounds</Link>
+        <Link className="btn btn-secondary" to="/">All Campgrounds</Link>
       </div>
     </div>
   )

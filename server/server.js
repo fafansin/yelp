@@ -83,23 +83,14 @@ app.post('/api/addCampground', catchAsync(async (req, res, next)=>{
 /**
  *  Process Updte Campgrounds
  */
-app.put('/campgrounds/:id', catchAsync(async (req,res)=>{
+app.put('/api/updateCampground/:id', catchAsync(async (req,res)=>{
     const {id} = req.params;
     const {campground} = req.body;
-    await Campground.findByIdAndUpdate(id, campground, {new:true});
-    res.redirect(`/campgrounds/${id}`);
+    console.log('API', campground);
+    const ref = await Campground.findByIdAndUpdate(id, campground, {new:true});
+    res.json({success:true, id:ref._id})
 }))
-/**
- *  Edit Campgrounds Form Page
- */
-app.get('/campgrounds/:id/edit', catchAsync(async (req, res, next)=>{
-    const {id} = req.params;
-    const campground = await Campground.findById(id);
-    if(!campground){
-        throw new ExpressError('Campground not found', 401);
-    }
-    res.render('campgrounds/edit', {campground});
-}))
+
 /**
  *  Home Page
  */

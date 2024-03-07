@@ -13,7 +13,7 @@ function Header() {
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
             <Link className="nav-link" to="/">Home</Link>
-            <Link className="nav-link" to="/campgrounds">Campgrounds</Link>
+            <Link className="nav-link" to="/">Campgrounds</Link>
             <Link className="nav-link" to="/campgrounds/new">New Campground</Link>
           </div>
           </div>
