@@ -45,6 +45,17 @@ app.get('/api/getCampgrounds', catchAsync(async (req, res)=>{
     // res.render('campgrounds', {title: 'Campgrounds', campgrounds});
 }))
 /**
+ *  Show Campground Detail Page
+ */
+app.get('/api/getCampground/:id', catchAsync(async (req, res, next)=>{
+  const { id } = req.params;
+  const campground = await Campground.findById(id);
+  if(!campground){
+    res.json({success:false, msg:'Campground not found'})
+  }
+  res.json({success:true, campground})
+}))
+/**
  *  New Campgrounds Page
  */
 app.get('/campgrounds/new', (req,res)=>{
@@ -68,17 +79,7 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res)=>{
     const ref = await Campground.findByIdAndDelete(id);
     res.redirect('/campgrounds');
 }))
-/**
- *  Show Campground Detail Page
- */
-app.get('/campgrounds/:id', catchAsync(async (req, res, next)=>{
-    const { id } = req.params;
-    const campground = await Campground.findById(id);
-    if(!campground){
-        throw new ExpressError('Campground not found', 401);
-    }
-    res.render('campgrounds/show', {campground});
-}))
+
 /**
  *  Process Updte Campgrounds
  */

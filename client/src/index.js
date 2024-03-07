@@ -5,9 +5,10 @@ import { createBrowserRouter, RouterProvider} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
-import Error from './pages/Error';
-import Campgrounds from './pages/campgrounds/Index';
 import App from './App';
+import Error from './pages/Error';
+import Index from './pages/campgrounds/Index';
+import Show from './pages/campgrounds/Show';
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,8 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <Error />,
     children:[
-      { index:true, element: <Campgrounds />},
+      { index:true, element: <Index />},
+      { path:"/campgrounds/:id", element: <Show />},
     ]
   }
 ])
