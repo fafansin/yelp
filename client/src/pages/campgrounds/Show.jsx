@@ -24,7 +24,6 @@ function Show() {
   async function handleDelete(e){
     try{
       const ref = await axios.delete(`/api/deleteCampground/${campground.id}`)
-      console.log(ref);
       if(ref.data.success){
         navigate('/')
       }else{
