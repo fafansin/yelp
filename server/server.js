@@ -56,6 +56,19 @@ app.get('/api/getCampground/:id', catchAsync(async (req, res, next)=>{
   res.json({success:true, campground})
 }))
 /**
+ *  Process Delete Campground
+ */
+app.delete('/api/deleteCampground/:id', catchAsync(async (req, res)=>{
+  const { id } = req.params;
+  try{
+    const ref = await Campground.findByIdAndDelete(id);
+    res.json({success:true})
+  }catch(e){
+    console.log('ERROR DELETE', e);
+    res.json({success:false, msg:'Campground not found'})
+  }
+}))
+/**
  *  New Campgrounds Page
  */
 app.get('/campgrounds/new', (req,res)=>{
@@ -71,14 +84,7 @@ app.post('/campgrounds', catchAsync(async (req, res, next)=>{
     await newCamp.save();
     res.redirect('/campgrounds');
 }))
-/**
- *  Process Delete Campground
- */
-app.delete('/campgrounds/:id', catchAsync(async (req, res)=>{
-    const { id } = req.params;
-    const ref = await Campground.findByIdAndDelete(id);
-    res.redirect('/campgrounds');
-}))
+
 
 /**
  *  Process Updte Campgrounds

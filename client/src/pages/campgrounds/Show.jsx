@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Show() {
   const { id } = useParams(); 
   const [campground, setCampground] = useState();
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -20,15 +21,26 @@ function Show() {
     }
   }
 
-  function handleDelete(e){
-    alert('delete here');
+  async function handleDelete(e){
+    try{
+      const ref = await axios.delete(`/api/deleteCampground/${campground.id}`)
+      console.log(ref);
+      if(ref.data.success){
+        navigate('/')
+      }else{
+        alert("Error Removing this campground FROM API");  
+      }
+    }catch(e){
+      alert("Error Removing this campground");
+      console.log(e);
+    }
   }
 
   return (
     <div className="row">
       <div className="col-6 offset-3">
         <div className="card mb-3">
-          <img src={ campground && campground.image } className="card-img-top" alt='campground image'/>
+          <img src={ campground && campground.image } className="card-img-top" alt='campground'/>
           <div className="card-body">
             <h5 className="card-title">{campground && campground.title}</h5>
             <p className="card-text">{campground && campground.description}</p>
@@ -40,9 +52,6 @@ function Show() {
           <div className="card-body">
             <Link className="card-link btn btn-info" href={`/campgrounds/${campground && campground.id}/edit`}>Edit</Link>
             <button className="btn btn-danger" onClick={handleDelete}>Delete</button>
-            {/* <form className="d-inline" action={`/campgrounds/${campground && campground.id}}/?_method=DELETE`} method="POST">
-              
-            </form> */}
           </div>
           <div className="card-footer text-muted">
               2 days ago
