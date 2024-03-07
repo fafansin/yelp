@@ -7,12 +7,16 @@ import './index.css';
 
 import Error from './pages/Error';
 import Campgrounds from './pages/campgrounds/Index';
+import App from './App';
 
 const router = createBrowserRouter([
   {
     path:'/',
-    element: <Campgrounds />,
-    errorElement: <Error />
+    element: <App />,
+    errorElement: <Error />,
+    children:[
+      { index:true, element: <Campgrounds />},
+    ]
   }
 ])
 
