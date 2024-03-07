@@ -69,20 +69,14 @@ app.delete('/api/deleteCampground/:id', catchAsync(async (req, res)=>{
   }
 }))
 /**
- *  New Campgrounds Page
- */
-app.get('/campgrounds/new', (req,res)=>{
-    res.render('campgrounds/new');
-})
-/**
  *  Process New Campground
  */
-app.post('/campgrounds', catchAsync(async (req, res, next)=>{
+app.post('/api/addCampground', catchAsync(async (req, res, next)=>{
     const {campground} = req.body;
-    if(!campground) throw new ExpressError('Invalid Campground Data', 500)
+    // if(!campground) throw new ExpressError('Invalid Campground Data', 500)
     const newCamp = new Campground(campground);
-    await newCamp.save();
-    res.redirect('/campgrounds');
+    const ref = await newCamp.save();
+    res.json({success:true, id:ref._id})
 }))
 
 

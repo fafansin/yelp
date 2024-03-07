@@ -9,6 +9,7 @@ import App from './App';
 import Error from './pages/Error';
 import Index from './pages/campgrounds/Index';
 import Show from './pages/campgrounds/Show';
+import New from './pages/campgrounds/New';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children:[
       { index:true, element: <Index />},
+      { path:"/campgrounds/new", element: <New />},
       { path:"/campgrounds/:id", element: <Show />},
     ]
   }
