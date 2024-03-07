@@ -86,7 +86,6 @@ app.post('/api/addCampground', catchAsync(async (req, res, next)=>{
 app.put('/api/updateCampground/:id', catchAsync(async (req,res)=>{
     const {id} = req.params;
     const {campground} = req.body;
-    console.log('API', campground);
     const ref = await Campground.findByIdAndUpdate(id, campground, {new:true});
     res.json({success:true, id:ref._id})
 }))
@@ -103,8 +102,8 @@ app.put('/api/updateCampground/:id', catchAsync(async (req,res)=>{
  *  404 Page Not Found
  */
 app.all('*', (req, res, next) =>{
-  console.log('DIto umabot');
-  // res.sendFil('index.html', {root:root})
+  // console.log('DIto umabot');
+  res.sendFile('index.html', {root:root})
     // next(new ExpressError('Page Not Found', 404));
 })
 
