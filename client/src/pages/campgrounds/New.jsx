@@ -62,7 +62,7 @@ function New() {
             <button className="btn btn-success">Add Campground</button>
           </div>
         </form>
-        <Link className="btn btn-secondary" to="/">All Campgrounds</Link>
+        <Link className="btn btn-secondary" to="/">Back</Link>
       </div>
     </div>
   )
