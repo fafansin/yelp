@@ -1,12 +1,19 @@
-import React from 'react'
+import React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 function Footer() {
   return (
-    <footer className="footer bg-dark py-3 mt-auto">
-      <div className="container">
-        <span className="text-muted">&copy; YelpCamp 2020</span>
-      </div>
-    </footer>
+    <Box component="footer" sx={{
+      bgcolor: 'grey',
+      display:"flex",
+      padding:2,
+      justifyContent:'center',
+      marginTop:2
+
+    }}>
+      <Typography variant="h6">&copy; YelpCamp 2024</Typography>
+    </Box>
   )
 }
 
