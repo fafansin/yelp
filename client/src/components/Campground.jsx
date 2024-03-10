@@ -1,25 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 function Campground({campground}) {
   return (
-    <div className="card mb-3">
-      <div className="row">
-        <div className="col-md-4">
-          <img src={campground.image} className="img-fluid" alt={campground.title}/>
-        </div>
-        <div className="col-md-8">
-          <div className="card-body">
-            <h5 className="card-title">{campground.title}</h5>
-            <p className="card-text">{campground.description }</p>
-            <p className="card-text">
-                <small className="text-muted">{campground.location}</small>
-            </p>
-            <Link className="btn btn-primary" to={`/campgrounds/${campground.id}`}>View {campground.title}</Link>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Card sx={{ maxWidth: 345 }}>
+      <CardMedia
+        sx={{ height: 140 }}
+        image={campground.image}
+        title={campground.title}
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {campground.title}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          $ {campground.price} per night
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {campground.location}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {campground.description}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button component={Link} to={`/campgrounds/${campground.id}`} size="small">Learn More</Button>
+      </CardActions>
+    </Card>
   )
 }
 
