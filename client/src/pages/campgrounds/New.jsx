@@ -1,10 +1,20 @@
 import React, {useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Stack from '@mui/material/Stack';
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 function New() {
-  const [ campground, setCampground ] = useState();
   const navigate = useNavigate();
+  const [ campground, setCampground ] = useState({title:'', 
+                                              location:'',
+                                              image:'',
+                                              price:'',
+                                              description:''});
+  
 
   function handleChange(e){
     setCampground({...campground, [e.target.name]:e.target.value})
@@ -25,46 +35,22 @@ function New() {
   }
 
   return (
-    <div className="row">
-      <h1 className="text-center">New Campground</h1>
-      <div className="col-6 offset-3">
-        <form className="needs-validation" onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label className="form-label" htmlFor="title">Title</label>
-            <input className="form-control" type="text" name="title" id="title" placeholder="Campground Title" required onChange={handleChange}/>
-            <div className="valid-feedback">Looks good!</div>
-            <div className="invalid-feedback">*required</div>
-          </div>
-          <div className="mb-3">
-            <label className="form-label" htmlFor="location">Location</label>
-            <input className="form-control" type="text" name="location" id="location" placeholder="Location" required onChange={handleChange}/>
-            <div className="invalid-feedback">*required</div>
-          </div>
-          <div className="mb-3">
-            <label className="form-label" htmlFor="image">Image Url</label>
-            <input className="form-control" type="text" name="image" id="image" placeholder="Image" required onChange={handleChange}/>
-            <div className="invalid-feedback">*required</div>
-          </div>
-          <div className="mb-r">
-            <label className="form-label" htmlFor="price">Price</label>
-            <div className="input-group">
-              <span className="input-group-text" id="dollar">$</span>
-              <input type="text" name="price" id="price" className="form-control" aria-describedby="dollar" placeholder="0.00" required onChange={handleChange}/>
-              <div className="invalid-feedback">*required</div>
-            </div>
-          </div>
-          <div className="mb-3">
-            <label className="form-label" htmlFor="description">Description</label>
-            <textarea className="form-control" name="description" id="description" placeholder="Description" required onChange={handleChange}></textarea>
-            <div className="invalid-feedback">*required</div>
-          </div>
-          <div className="mb-3">
-            <button className="btn btn-success">Add Campground</button>
-          </div>
-        </form>
-        <Link className="btn btn-secondary" to="/">Back</Link>
-      </div>
-    </div>
+    <>
+      <Typography component="h1" variant="h4" className="text-center" sx={{pb:3}}>New Campground</Typography>
+      <Paper sx={{p:3}}>
+        <Stack spacing={2} component="form" className="needs-validation" onSubmit={handleSubmit}>
+          <TextField size="small" name="title" id="title" label="Title" onChange={handleChange} value={campground && campground.title}/>
+          <TextField size="small" name="location" id="location" label="Location" onChange={handleChange} value={campground && campground.location}/>
+          <TextField size="small" name="image" id="location" label="Image" onChange={handleChange} value={campground && campground.image}/>
+          <TextField size="small" name="price" id="price" label="Price"  type="number" onChange={handleChange} value={campground && campground.price}/>
+          <TextField size="small" name="description" id="description" multiline maxRows={4} label="Description" onChange={handleChange} value={campground && campground.description}/>
+          <Stack direction="row" spacing={1}>
+            <Button variant="contained" onClick={handleSubmit}>Save</Button>
+            <Button variant="contained" color="grey" component={Link}to="/">Cancel</Button>
+          </Stack>
+        </Stack>
+      </Paper>
+    </>
   )
 }
 

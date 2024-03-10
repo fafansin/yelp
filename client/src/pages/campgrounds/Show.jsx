@@ -28,7 +28,7 @@ function Show() {
   }
 
   return (
-    <Box px={{xs:0, sm:2, md:4}} pt={2}>
+    <Box px={{xs:0, sm:2, md:4}}>
       <Card>
         <CardMedia
           sx={{ height: 500 }}
