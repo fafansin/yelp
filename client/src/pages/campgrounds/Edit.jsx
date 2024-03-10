@@ -1,24 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import { Link,useParams, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate, useLoaderData } from 'react-router-dom';
 import axios from 'axios';
 
 function Edit() {
-  const [campground, setCampground] = useState({});
-  const {id} = useParams(); 
+  const [campground, setCampground] = useState(useLoaderData());
   const navigate = useNavigate();
-
-  useEffect(() => {
-    populate();
-  }, [])
-
-  async function populate(){
-    try{
-      const ref = await axios.get(`/api/getCampground/${id}`)
-      setCampground(ref.data.campground);
-    }catch(e){
-      console.log(e);
-    }
-  }
 
   function handleChange(e){
     setCampground({...campground, [e.target.name]:e.target.value})
@@ -27,9 +13,9 @@ function Edit() {
   async function handleSubmit(e){
     e.preventDefault();
     try{
-      const ref = await axios.put(`/api/updateCampground/${id}`, {campground:campground});
+      const ref = await axios.put(`/api/updateCampground/${campground.id}`, {campground:campground});
       if(ref.data.success){
-        navigate(`/campgrounds/${id}`);
+        navigate(`/campgrounds/${campground.id}`);
       }else{
         console.log('ERROR', ref);
       }
@@ -70,7 +56,7 @@ function Edit() {
             <button onClick={handleSubmit} className="btn btn-success">Save Campground</button>
           </div>
         </form>
-        <Link className="btn btn-secondary" to={`/campgrounds/${id}`}>Back</Link>
+        <Link className="btn btn-secondary" to={`/campgrounds/${campground.id}`}>Back</Link>
       </div>
     </div>
   )

@@ -1,24 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate, useLoaderData } from 'react-router-dom';
 import axios from 'axios';
 
 function Show() {
-  const { id } = useParams(); 
-  const [campground, setCampground] = useState();
+  const campground = useLoaderData()
   const navigate = useNavigate();
-
-  useEffect(() => {
-    populate();
-  }, [])
-
-  async function populate(){
-    try{
-      const ref = await axios.get(`/api/getCampground/${id}`)
-      setCampground(ref.data.campground);
-    }catch(e){
-      console.log(e);
-    }
-  }
 
   async function handleDelete(e){
     try{
