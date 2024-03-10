@@ -11,6 +11,7 @@ import Index from './pages/campgrounds/Index';
 import Show from './pages/campgrounds/Show';
 import New from './pages/campgrounds/New';
 import Edit from './pages/campgrounds/Edit';
+import { getCampgrounds } from './loaders/CampgroundLoaders';
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <Error />,
     children:[
-      { index:true, element: <Index />},
+      { index:true, element: <Index />, loader:getCampgrounds},
       { path:"/campgrounds/new", element: <New />},
       { path:"/campgrounds/:id", element: <Show />},
       { path:"/campgrounds/:id/edit", element: <Edit />},

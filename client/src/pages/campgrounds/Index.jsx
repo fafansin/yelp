@@ -1,21 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import React from 'react';
 import Campground from '../../components/Campground';
+import { useLoaderData } from 'react-router-dom';
 
 function Index() {
-  const [campgrounds, setCampgrounds] = useState([])
-  useEffect(() => {
-    populate();
-  }, [])
-
-  async function populate(){
-    try{
-      const ref = await axios.get('/api/getCampgrounds');
-      setCampgrounds(ref.data.campgrounds);
-    }catch(e){
-      console.log(e);
-    }
-  }
+  const campgrounds = useLoaderData();
   return (
     <div>
       <h1>All Campgrounds</h1>
