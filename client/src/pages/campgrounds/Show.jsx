@@ -14,17 +14,7 @@ function Show() {
   const navigate = useNavigate();
 
   async function handleDelete(e){
-    try{
-      const ref = await axios.delete(`/api/deleteCampground/${campground.id}`)
-      if(ref.data.success){
-        navigate('/')
-      }else{
-        alert("Error Removing this campground FROM API");  
-      }
-    }catch(e){
-      alert("Error Removing this campground");
-      console.log(e);
-    }
+    
   }
 
   return (

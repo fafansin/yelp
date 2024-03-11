@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { ACTION } from '../../hooks/useCampgroundReducer';
+import { DispatchContext } from '../../contexts/CampgroundContext';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
@@ -8,6 +9,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 function New() {
+  const dispatch = useContext(DispatchContext);
   const navigate = useNavigate();
   const [ campground, setCampground ] = useState({title:'', 
                                               location:'',
@@ -22,16 +24,8 @@ function New() {
   
   async function handleSubmit(e){
     e.preventDefault();
-    try{
-      const ref = await axios.post('/api/addCampground', {campground:campground});
-      if(ref.data.success){
-        navigate('/')
-      }else{
-        alert('Error on adding Campground')
-      }
-    }catch(e){
-      console.log('ERROR on call', e);
-    }
+    await dispatch({type:ACTION.CREATE, payload:campground});
+    navigate('/');
   }
 
   return (

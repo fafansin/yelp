@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLoaderData } from 'react-router-dom';
-import axios from 'axios';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
@@ -18,16 +17,7 @@ function Edit() {
 
   async function handleSubmit(e){
     e.preventDefault();
-    try{
-      const ref = await axios.put(`/api/updateCampground/${campground.id}`, {campground:campground});
-      if(ref.data.success){
-        navigate(`/campgrounds/${campground.id}`);
-      }else{
-        console.log('ERROR', ref);
-      }
-    }catch(e){
-      console.log('ERROR', e);
-    }
+    
   }
 
   return (
