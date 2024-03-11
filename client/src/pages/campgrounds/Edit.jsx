@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate, useLoaderData } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { ACTION } from '../../hooks/useCampgroundReducer';
+import { DispatchContext } from '../../contexts/CampgroundContext';
+
 
 
 function Edit() {
   const [campground, setCampground] = useState(useLoaderData());
+  const dispatch = useContext(DispatchContext);
   const navigate = useNavigate();
 
   function handleChange(e){
@@ -17,7 +21,8 @@ function Edit() {
 
   async function handleSubmit(e){
     e.preventDefault();
-    
+    await dispatch({type:ACTION.UPDATE, payload:campground})
+    navigate(`/campgrounds/${campground.id}`)
   }
 
   return (

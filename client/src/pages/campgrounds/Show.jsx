@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate, useLoaderData } from 'react-router-dom';
-import axios from 'axios';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -8,13 +7,18 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { ACTION } from '../../hooks/useCampgroundReducer';
+import { DispatchContext } from '../../contexts/CampgroundContext';
 
 function Show() {
   const campground = useLoaderData()
   const navigate = useNavigate();
+  const dispatch = useContext(DispatchContext);
 
   async function handleDelete(e){
-    
+    e.preventDefault();
+    await dispatch({type:ACTION.DELETE, payload:campground})
+    navigate('/');
   }
 
   return (

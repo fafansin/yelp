@@ -65,11 +65,17 @@ app.delete('/api/deleteCampground/:id', catchAsync(async (req, res)=>{
  *  Process New Campground
  */
 app.post('/api/addCampground', catchAsync(async (req, res, next)=>{
+  try{
     const {campground} = req.body;
     // if(!campground) throw new ExpressError('Invalid Campground Data', 500)
     const newCamp = new Campground(campground);
     const ref = await newCamp.save();
     res.json({success:true, id:ref._id})
+  }catch(e){
+    console.log(e);
+    res.json({success:false, msg:e})
+  }
+    
 }))
 
 

@@ -8,12 +8,11 @@ export const ACTION = {
 
 const reducer = (state, action) => {
   const { type, payload } = action;
-  const { campground } = payload;
   switch (type) {
     case ACTION.DELETE:
       return new Promise(async (resolve, reject) => {
         try{
-          const ref = await axios.delete(`/api/deleteCampground/${campground.id}`)
+          const ref = await axios.delete(`/api/deleteCampground/${payload.id}`)
           if(ref.data.success){
             resolve();
           }else{
@@ -26,7 +25,7 @@ const reducer = (state, action) => {
     case ACTION.CREATE:
       return new Promise( async (resolve, reject) => {
         try{
-          const ref = await axios.post('/api/addCampground', {campground:campground});
+          const ref = await axios.post('/api/addCampground', {campground:payload});
           if(ref.data.success){
             resolve();
           }else{
@@ -39,7 +38,7 @@ const reducer = (state, action) => {
     case ACTION.UPDATE:
       return new Promise(async (resolve, reject) => {
         try{
-          const ref = await axios.put(`/api/updateCampground/${campground.id}`, {campground:campground});
+          const ref = await axios.put(`/api/updateCampground/${payload.id}`, {campground:payload});
           if(ref.data.success){
             resolve();
           }else{
