@@ -14,7 +14,7 @@ function Campground({campground}) {
       <Card sx={{ maxWidth: 345 }}>
         <CardMedia
           sx={{ height: 140 }}
-          image={campground.image || ''}
+          image={campground.image.url || ''}
           title={campground.title}
         />
         <CardContent>

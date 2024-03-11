@@ -32,7 +32,7 @@ function Edit() {
         <Stack spacing={2} component="form" className="needs-validation" onSubmit={handleSubmit}>
           <TextField size="small" name="title" id="title" label="Title" onChange={handleChange} value={campground && campground.title}/>
           <TextField size="small" name="location" id="location" label="Location" onChange={handleChange} value={campground && campground.location}/>
-          <TextField size="small" name="image" id="location" label="Image" onChange={handleChange} value={campground && campground.image}/>
+          <TextField size="small" name="image" id="location" label="Image" onChange={handleChange} value={campground && campground.image.url}/>
           <TextField size="small" name="price" id="price" label="Price"  type="number" onChange={handleChange} value={campground && campground.price}/>
           <TextField size="small" name="description" id="description" multiline maxRows={4} label="Description" onChange={handleChange} value={campground && campground.description}/>
           <Stack direction="row" spacing={1}>

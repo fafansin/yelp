@@ -8,8 +8,24 @@ const mongoose = require('mongoose');
 const Campground = require('./models/campground');
 const ExpressError = require('./utils/ExpressError');
 const catchAsync = require('./utils/catchAsync');
+const multer = require('multer');
 
 dotenv.config();
+
+/**
+ *  Multer config for image uploading
+ */
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.resolve(__dirname, '../client', 'public','images'))
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname))
+  }
+})
+
+const upload = multer({ storage: storage })
 
 mongoose.connect(process.env.DB_HOST, {
     useFindAndModify: false,
@@ -64,18 +80,24 @@ app.delete('/api/deleteCampground/:id', catchAsync(async (req, res)=>{
 /**
  *  Process New Campground
  */
-app.post('/api/addCampground', catchAsync(async (req, res, next)=>{
+app.post('/api/addCampground', upload.single('image'), catchAsync(async (req, res, next) => {
+  const { file, body } = req;
+  
   try{
-    const {campground} = req.body;
-    // if(!campground) throw new ExpressError('Invalid Campground Data', 500)
-    const newCamp = new Campground(campground);
+    body.image = {
+      filename: file.originalname,
+      url:`/images/${file.filename}`,
+      mimetype:file.mimetype,
+      path:file.path,
+      size:file.size
+    }
+    const newCamp = new Campground(body);
     const ref = await newCamp.save();
     res.json({success:true, id:ref._id})
   }catch(e){
     console.log(e);
     res.json({success:false, msg:e})
   }
-    
 }))
 
 

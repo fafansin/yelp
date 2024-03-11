@@ -26,7 +26,7 @@ function Show() {
       <Card>
         <CardMedia
           sx={{ height: 500 }}
-          image={campground.image}
+          image={campground.image.url}
           title={campground.title}
         />
         <CardContent>

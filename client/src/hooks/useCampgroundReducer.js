@@ -23,16 +23,24 @@ const reducer = (state, action) => {
         }
       })
     case ACTION.CREATE:
-      return new Promise( async (resolve, reject) => {
+      const data = new FormData();
+        data.append('image', payload.imageRaw)
+        data.append('title', payload.title)
+        data.append('price', payload.price)
+        data.append('description', payload.description)
+        data.append('location', payload.location)
+        
+      return new Promise(async (resolve, reject) => {
         try{
-          const ref = await axios.post('/api/addCampground', {campground:payload});
+          const ref = await axios.post(`/api/addCampground/`, data, {headers: { "Content-Type": "multipart/form-data" }});
           if(ref.data.success){
-            resolve();
+            console.log('REDUCER', ref.data)
+            resolve(ref.data.id);
           }else{
-            reject(new Error('Error on adding Campground'));
+            reject(new Error(ref))
           }
         }catch(e){
-          reject(new Error('ERROR on call', e));
+          reject(new Error(e))
         }
       })
     case ACTION.UPDATE:
