@@ -9,6 +9,7 @@ const Campground = require('./models/campground');
 const ExpressError = require('./utils/ExpressError');
 const catchAsync = require('./utils/catchAsync');
 const multer = require('multer');
+const fs = require('fs');
 
 dotenv.config();
 
@@ -67,8 +68,14 @@ app.get('/api/getCampground/:id', catchAsync(async (req, res, next)=>{
 /**
  *  Process Delete Campground
  */
-app.delete('/api/deleteCampground/:id', catchAsync(async (req, res)=>{
+app.delete('/api/deleteCampground/:id',async (req, res)=>{
   const { id } = req.params;
+  const campground = await Campground.findById(id);
+  try{
+    fs.unlinkSync(campground.image.path);
+  }catch(e){
+    console.log("Can't Find File")
+  }
   try{
     const ref = await Campground.findByIdAndDelete(id);
     res.json({success:true})
@@ -76,7 +83,7 @@ app.delete('/api/deleteCampground/:id', catchAsync(async (req, res)=>{
     console.log('ERROR DELETE', e);
     res.json({success:false, msg:'Campground not found'})
   }
-}))
+})
 /**
  *  Process New Campground
  */
@@ -104,12 +111,45 @@ app.post('/api/addCampground', upload.single('image'), catchAsync(async (req, re
 /**
  *  Process Updte Campgrounds
  */
-app.put('/api/updateCampground/:id', catchAsync(async (req,res)=>{
+app.put('/api/updateCampground/:id', upload.single('image'), async (req,res)=>{
     const {id} = req.params;
-    const {campground} = req.body;
-    const ref = await Campground.findByIdAndUpdate(id, campground, {new:true});
-    res.json({success:true, id:ref._id})
-}))
+    const { file, body } = req;
+    const campground = {};
+    const mainCamp = await Campground.findById(id);
+    
+    //
+    mainCamp.title = body.title;
+    mainCamp.description = body.description;
+    mainCamp.price = body.price;
+    mainCamp.location = body.location;
+    
+    // Delete image file
+    if(body.noImage === 'true' || file){
+      try{
+        fs.unlinkSync(mainCamp.image.path);
+      }catch(e){
+        console.log('file already gone')
+      }
+      if(file){
+        mainCamp.image = {
+          filename: file.originalname,
+          url:`/images/${file.filename}`,
+          mimetype:file.mimetype,
+          path:file.path,
+          size:file.size
+        }
+      }else{
+        delete mainCamp.image;
+      }
+    }
+    
+    try{
+      await mainCamp.save()
+    }catch(e){
+      consooe.log(e);
+    }
+    res.json({success:true, id:id})
+})
 
 /**
  *  Home Page

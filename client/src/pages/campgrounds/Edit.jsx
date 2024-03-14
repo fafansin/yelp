@@ -75,7 +75,7 @@ function Edit() {
   }
 
   function handleImageChange(e){
-    setCampground({...campground, imageRaw:e.target.files[0]});
+    setCampground({...campground, imageRaw:e.target.files[0], image:{url:URL.createObjectURL(e.target.files[0])}});
   }
 
   return (

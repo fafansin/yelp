@@ -34,7 +34,6 @@ const reducer = (state, action) => {
         try{
           const ref = await axios.post(`/api/addCampground/`, data, {headers: { "Content-Type": "multipart/form-data" }});
           if(ref.data.success){
-            console.log('REDUCER', ref.data)
             resolve(ref.data.id);
           }else{
             reject(new Error(ref))
@@ -46,9 +45,19 @@ const reducer = (state, action) => {
     case ACTION.UPDATE:
       return new Promise(async (resolve, reject) => {
         try{
-          const ref = await axios.put(`/api/updateCampground/${payload.id}`, {campground:payload});
+          const data = new FormData();
+            if(payload.imageRaw){
+              data.append('image', payload.imageRaw)
+            }
+            data.append('title', payload.title)
+            data.append('price', payload.price)
+            data.append('description', payload.description)
+            data.append('location', payload.location)
+            data.append('noImage', !payload.image && !payload.imageRow)
+          
+          const ref = await axios.put(`/api/updateCampground/${payload.id}`, data, {headers: { "Content-Type": "multipart/form-data" }});
           if(ref.data.success){
-            resolve();
+            resolve(ref.data.id);
           }else{
             reject(new Error(ref))
           }
