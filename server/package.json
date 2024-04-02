@@ -2,7 +2,7 @@
   "name": "boiler-express",
   "version": "1.0.0",
   "description": "My first boiler plate for node express with mongoose",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
