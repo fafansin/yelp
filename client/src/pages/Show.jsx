@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 
 function Show() {
   const campground = useLoaderData();
@@ -17,7 +17,7 @@ function Show() {
             <li className="list-group-item">${campground.price}/night</li>
           </ul>
           <div className="card-body">
-            <a className="card-link btn btn-info" href={`/campgrounds/${campground.id}/edit`}>Edit</a>
+            <Link className="card-link btn btn-info" to={`/campgrounds/${campground.id}/edit`}>Edit</Link>
             <form className="d-inline" action={`/campgrounds/${campground.id}/?_method=DELETE`} method="POST">
               <button className="btn btn-danger">Delete</button>
             </form>

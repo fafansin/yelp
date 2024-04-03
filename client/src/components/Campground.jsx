@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom'
 
 function Campground({campground}) {
   return (
@@ -14,7 +15,7 @@ function Campground({campground}) {
             <p className="card-text">
               <small className="text-muted">{campground.location}</small>
             </p>
-            <a className="btn btn-primary" href={`/campgrounds/${campground.id}`}>View {campground.title}</a>
+            <Link className="btn btn-primary" to={`/campgrounds/${campground.id}`}>View {campground.title}</Link>
           </div>
         </div>
       </div>
