@@ -6,6 +6,7 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import App from './App';
+import Home from './pages/Home';
 import Error from './pages/Error';
 import Index from './pages/Index';
 import New from './pages/New';
@@ -22,7 +23,8 @@ const router = createBrowserRouter([
     element:<App />,
     errorPage:<Error />,
     children:[
-      { index:true, element: <Index />, loader:getCampgrounds},
+      { index:true, element: <Home />},
+      { path:"/campgrounds", element: <Index />, loader:getCampgrounds},
       { path:"/campgrounds/new", element: <New />},
       { path:"/campgrounds/:id", element: <Show />, loader:getCampground},
       { path:"/campgrounds/:id/edit", element: <Edit />, loader:getCampground},

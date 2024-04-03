@@ -54,23 +54,24 @@ app.use(express.json());
 //     res.render('campgrounds/show', {campground});
 // })
 
-// app.put('/campgrounds/:id', async (req,res)=>{
-//     const {id} = req.params;
-//     const {campground} = req.body;
-//     await Campground.findByIdAndUpdate(id, campground, {new:true});
-//     res.redirect(`/campgrounds/${id}`);
-// })
+app.put('/api/updateCampgroud/:id', async (req,res)=>{
+    const {id} = req.params;
+    const {campground} = req.body;
+    res.json({success:true})  
+    // await Campground.findByIdAndUpdate(id, campground, {new:true});
+    // res.redirect(`/campgrounds/${id}`);
+})
 
-// app.get('/campgrounds/:id/edit', async (req, res)=>{
-//     const {id} = req.params;
-//     const campground = await Campground.findById(id);
-//     res.render('campgrounds/edit', {campground});
-// })
+
+app.get('/api/getCampground/:id', async (req, res) =>{
+  const { id } = req.params;
+  const campground = await Campground.findById(id)
+  res.json({success:true, campground})
+})
 
 app.get('/api/getCampgrounds', async (req, res) =>{
   const campgrounds = await Campground.find({})
   res.json({success:true, campgrounds})
-  // res.render('404');
 })
 
 // This will will load all urls to main React page
