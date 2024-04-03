@@ -19,8 +19,10 @@ function Edit() {
   }
 
   async function updateRecord(){
-    await axios.put(`/api/updateCampgroud/${campground.id}`, campground);
-    navigate(`/campgrounds/${campground.id}`)
+    const ref = await axios.put(`/api/updateCampgroud/${campground.id}`, campground);
+    if(ref.data.success){
+      navigate(`/campgrounds/${campground.id}`)
+    }
   }
   
   return (

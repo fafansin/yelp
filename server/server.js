@@ -42,17 +42,15 @@ app.use(express.json());
 //     await newCamp.save();
 //     res.redirect('/campgrounds');
 // })
-// app.delete('/campgrounds/:id', async (req, res)=>{
-//     const { id } = req.params;
-//     const ref = await Campground.findByIdAndDelete(id);
-//     res.redirect('/campgrounds');
-// })
 
-// app.get('/campgrounds/:id', async (req, res)=>{
-//     const {id} = req.params;
-//     const campground = await Campground.findById(id);
-//     res.render('campgrounds/show', {campground});
-// })
+app.delete('/api/deleteCampground/:id', async (req, res)=>{
+    const { id } = req.params;
+    const ref = await Campground.findByIdAndDelete(id);
+    
+    res.json({success:true})  
+})
+
+
 
 app.put('/api/updateCampgroud/:id', async (req,res)=>{
     const {id} = req.params;

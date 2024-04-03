@@ -1,8 +1,24 @@
 import React from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link, useNavigate, useLoaderData } from 'react-router-dom';
+import axios from 'axios';
+import Button from 'react-bootstrap/Button';
 
 function Show() {
   const campground = useLoaderData();
+  const navigate = useNavigate();
+
+  function handleDelete(event){
+    console.log(campground.id);
+    deleteAction();
+  }
+
+  async function deleteAction(){
+    const ref = await axios.delete(`/api/deleteCampground/${campground.id}`);
+    if(ref.data.success){
+      navigate('/campgrounds')
+    }
+  }
+
   return (
     <div className="row">
       <div className="col-6 offset-3">
@@ -18,9 +34,7 @@ function Show() {
           </ul>
           <div className="card-body">
             <Link className="card-link btn btn-info" to={`/campgrounds/${campground.id}/edit`}>Edit</Link>
-            <form className="d-inline" action={`/campgrounds/${campground.id}/?_method=DELETE`} method="POST">
-              <button className="btn btn-danger">Delete</button>
-            </form>
+            <Button variant="danger" onClick={handleDelete}>Delete</Button>
           </div>
           <div className="card-footer text-muted">
             2 days ago
