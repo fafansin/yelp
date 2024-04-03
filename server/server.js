@@ -26,22 +26,14 @@ app.use(express.static(root));
 app.use(express.json());
 
 
-// app.use(express.urlencoded({extended:true}));
-// app.use(methodOverride('_method'));
+app.post('/api/createCampground', async (req, res)=>{
+    const campground = req.body;
+    const newCamp = new Campground(campground);
+    const ref = await newCamp.save();
+    console.log(ref);
 
-// app.get('/campgrounds', async (req, res)=>{
-//     const campgrounds = await Campground.find({});
-//     res.render('campgrounds', {title: 'Campgrounds', campgrounds});
-// })
-// app.get('/campgrounds/new', (req,res)=>{
-//     res.render('campgrounds/new');
-// })
-// app.post('/campgrounds', async (req, res)=>{
-//     const {campground} = req.body;
-//     const newCamp = new Campground(campground);
-//     await newCamp.save();
-//     res.redirect('/campgrounds');
-// })
+    res.json({success:true, id:ref._id});
+})
 
 app.delete('/api/deleteCampground/:id', async (req, res)=>{
     const { id } = req.params;
@@ -49,8 +41,6 @@ app.delete('/api/deleteCampground/:id', async (req, res)=>{
     
     res.json({success:true})  
 })
-
-
 
 app.put('/api/updateCampgroud/:id', async (req,res)=>{
     const {id} = req.params;

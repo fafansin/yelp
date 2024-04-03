@@ -57,7 +57,7 @@ function Edit() {
         </FloatingLabel>
         <FloatingLabel label="Price" className="mb-3">
             <Form.Control
-              type="text" 
+              type="number" 
               onChange={handleChange}
               name="price" 
               id="price" 
