@@ -67,6 +67,12 @@ app.use(express.json());
 //     res.render('campgrounds/edit', {campground});
 // })
 
+app.get('/api/getCampgrounds', async (req, res) =>{
+  const campgrounds = await Campground.find({})
+  res.json({success:true, campgrounds})
+  // res.render('404');
+})
+
 // This will will load all urls to main React page
 app.get('*', (req, res) =>{
   res.sendFile('index.html', {root:root})
