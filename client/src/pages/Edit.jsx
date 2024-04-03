@@ -1,18 +1,26 @@
 import React, {useState} from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData, useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import axios from 'axios';
 
 function Edit() {
-  const [ campground, setCampground ] = useState(useLoaderData())
+  const [ campground, setCampground ] = useState(useLoaderData());
+  const navigate = useNavigate();
+
 
   function handleChange(event){
     setCampground({...campground, [event.target.name]:event.target.value});
   }
 
   function handleSubmit(event){
-    console.log('Submit this Shit!', campground);
+    updateRecord();
+  }
+
+  async function updateRecord(){
+    await axios.put(`/api/updateCampgroud/${campground.id}`, campground);
+    navigate(`/campgrounds/${campground.id}`)
   }
   
   return (

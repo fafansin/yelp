@@ -58,9 +58,8 @@ app.put('/api/updateCampgroud/:id', async (req,res)=>{
     const {id} = req.params;
     const {campground} = req.body;
     
+    const ref = await Campground.findByIdAndUpdate(id, req.body, {new:true});
     res.json({success:true})  
-    // await Campground.findByIdAndUpdate(id, campground, {new:true});
-    // res.redirect(`/campgrounds/${id}`);
 })
 
 
