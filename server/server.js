@@ -57,6 +57,7 @@ app.use(express.json());
 app.put('/api/updateCampgroud/:id', async (req,res)=>{
     const {id} = req.params;
     const {campground} = req.body;
+    
     res.json({success:true})  
     // await Campground.findByIdAndUpdate(id, campground, {new:true});
     // res.redirect(`/campgrounds/${id}`);
